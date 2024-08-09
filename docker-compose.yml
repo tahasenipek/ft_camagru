@@ -1,0 +1,29 @@
+services:
+  backend:
+    container_name: web
+    build: ./backend/
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database
+
+  frontend:
+    container_name: frontend
+    build: ./frontend/
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+  
+  database:
+    container_name: database
+    build: ./db/
+    restart: always
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - ./db/data:/var/lib/mysql
